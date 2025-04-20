@@ -1,28 +1,38 @@
-<html lang="de">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-    <link rel="stylesheet" href="style.css">
+    <title>p5.js Starter Project</title>
+    <style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    main {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    </style>
 </head>
 <body>
-    <header>
-
-    </header>
-
-    <main>
-        <h2> Teachable Machine 
-        <nav class="link-table">
-            <a href="https://teachablemachine.withgoogle.com/models/o1vltTmRx/">Länder Formen</a>
-           
-        </nav>
-
-    
-        </div>
+<main>
+    <div id="sketch"></div>
+    <a href="index.js">souce code</a>
     </main>
+		<script src="lib/ml5.1.2.1.min.js"></script>
+		<script src="lib/p5.min.js"></script>
+    <!-- <script src="lib/p5.sound.min.js"></script> -->
 
-
-    <footer>
-    </footer>
+    <script src="index.js"></script>
 </body>
 </html>
