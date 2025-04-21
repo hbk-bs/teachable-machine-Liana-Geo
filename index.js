@@ -16,13 +16,13 @@ function preload() {
 
 	// Load images for each label (make sure the file names match your actual images)
 	squishImg = loadImage('squish1.png');        // For "squish the hamster!!"
-	softSquishImg = loadImage('squish2.png');      // For "soft squish"
-	owImg = loadImage('squish3.png');                // For "OW OW OW"
-	stopImg = loadImage('squish4.png');            // For "STOP IT HE HAS HAD ENOUGH"
+	softSquishImg = loadImage('squish2.png');    // For "soft squish"
+	owImg = loadImage('squish3.png');            // For "OW OW OW"
+	stopImg = loadImage('squish4.png');          // For "STOP IT HE HAS HAD ENOUGH"
 }
 
 function setup() {
-	createCanvas(320, 260);
+	createCanvas(320, 480); // 240 (video) + 240 (image)
 	video = createCapture(VIDEO);
 	video.size(320, 240);
 	video.hide();
@@ -31,13 +31,6 @@ function setup() {
 
 function draw() {
 	background(0);
-	image(video, 0, 0);
-
-	// Show label
-	fill(255);
-	textSize(14);
-	textAlign(CENTER);
-	text(label, width / 2, height - 4);
 
 	// Pick the image based on the label
 	let imgToShow;
@@ -52,10 +45,19 @@ function draw() {
 		imgToShow = stopImg;
 	}
 
-	// Show the image if it exists
+	// Draw the image on top if it exists
 	if (imgToShow) {
-		image(imgToShow, 210, 10, 100, 100); // Show in top-right corner
+		image(imgToShow, 0, 0, 320, 240); // Draw image at the top
 	}
+
+	// Draw the video below the image
+	image(video, 0, 240); // Draw video below the image
+
+	// Show label below the video
+	fill(255);
+	textSize(14);
+	textAlign(CENTER);
+	text(label, width / 2, height - 10);
 }
 
 function classifyVideo() {
