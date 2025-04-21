@@ -8,62 +8,63 @@ let video;
 // To store the classification
 let label = '';
 
-// Images for each motion
-let images = {
-    "Motion1": "images/squish1.png",
-    "Motion2": "images/squish2.png",
-    "Motion3": "images/squish3.png",
-    "Motion4": "images/squish4.png",
-};
+// Images for each category
+let squishImg, softSquishImg, owImg, stopImg;
 
-// Load the model first
 function preload() {
-    classifier = ml5.imageClassifier(imageModelURL + 'model.json');
+	classifier = ml5.imageClassifier(imageModelURL + 'model.json');
+
+	// Load images for each label (make sure the file names match your actual images)
+	squishImg = loadImage('squish1.png');        // For "squish the hamster!!"
+	softSquishImg = loadImage('squish2.png');      // For "soft squish"
+	owImg = loadImage('squish3.png');                // For "OW OW OW"
+	stopImg = loadImage('squish4.png');            // For "STOP IT HE HAS HAD ENOUGH"
 }
 
 function setup() {
-    createCanvas(320, 260);
-    // Create the video
-    video = createCapture(VIDEO);
-    video.size(320, 240);
-    video.hide();
-
-    // Start classifying
-    classifyVideo();
+	createCanvas(320, 260);
+	video = createCapture(VIDEO);
+	video.size(320, 240);
+	video.hide();
+	classifyVideo();
 }
 
 function draw() {
-    background(0);
-    // Draw the video
-    image(video, 0, 0);
+	background(0);
+	image(video, 0, 0);
 
-    // Display the corresponding image for the detected motion
-    if (label in images) {
-        let img = loadImage(images[label], () => {
-            image(img, 0, 0, width, height);
-        });
-    }
+	// Show label
+	fill(255);
+	textSize(14);
+	textAlign(CENTER);
+	text(label, width / 2, height - 4);
 
-    // Draw the label
-    fill(255);
-    textSize(16);
-    textAlign(CENTER);
-    text(label, width / 2, height - 4);
+	// Pick the image based on the label
+	let imgToShow;
+
+	if (label === 'squish the hamster!!') {
+		imgToShow = squishImg;
+	} else if (label === 'soft squish') {
+		imgToShow = softSquishImg;
+	} else if (label === 'OW OW OW') {
+		imgToShow = owImg;
+	} else if (label === 'STOP IT HE HAS HAD ENOUGH') {
+		imgToShow = stopImg;
+	}
+
+	// Show the image if it exists
+	if (imgToShow) {
+		image(imgToShow, 210, 10, 100, 100); // Show in top-right corner
+	}
 }
 
-// Get a prediction for the current video frame
 function classifyVideo() {
-    classifier.classify(video, gotResult);
+	classifier.classify(video, gotResult);
 }
 
-// When we get a result
-function gotResult(error, results) {
-    if (error) {
-        console.error(error);
-        return;
-    }
-    // The results are in an array ordered by confidence.
-    label = results[0].label;
-    // Classify again!
-    classifyVideo();
+function gotResult(results) {
+	if (results && results[0]) {
+		label = results[0].label;
+	}
+	classifyVideo();
 }
